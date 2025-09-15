@@ -919,6 +919,26 @@ void runTests() {
         // Hanging in CI, https://github.com/flutter/flutter/issues/166139
         isIOS,
   );
+
+  testWidgets('testInitialMapType', (WidgetTester tester) async {
+    final Key key = GlobalKey();
+    final Completer<int> mapIdCompleter = Completer<int>();
+    await pumpMap(
+      tester,
+      GoogleMap(
+        key: key,
+        initialCameraPosition: kInitialCameraPosition,
+        mapType: MapType.none,
+        onMapCreated: (GoogleMapController controller) {
+          mapIdCompleter.complete(controller.mapId);
+        },
+      ),
+    );
+    final int mapId = await mapIdCompleter.future;
+
+    final MapType mapType = await inspector.getMapType(mapId: mapId);
+    expect(mapType, MapType.none);
+  });
 }
 
 Marker _copyMarkerWithClusterManagerId(

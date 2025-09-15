@@ -71,7 +71,13 @@ public class GoogleMapControllerTest {
   // See getGoogleMapControllerWithMockedDependencies for version with dependency injections.
   public GoogleMapController getGoogleMapController() {
     GoogleMapController googleMapController =
-        new GoogleMapController(0, context, mockMessenger, activity::getLifecycle, null);
+        new GoogleMapController(
+            0,
+            context,
+            mockMessenger,
+            activity::getLifecycle,
+            null,
+            com.google.android.gms.maps.GoogleMap.MAP_TYPE_NORMAL);
     googleMapController.init();
     return googleMapController;
   }
@@ -86,6 +92,7 @@ public class GoogleMapControllerTest {
             flutterApi,
             activity::getLifecycle,
             null,
+            com.google.android.gms.maps.GoogleMap.MAP_TYPE_NORMAL,
             mockClusterManagersController,
             mockMarkersController,
             mockPolygonsController,

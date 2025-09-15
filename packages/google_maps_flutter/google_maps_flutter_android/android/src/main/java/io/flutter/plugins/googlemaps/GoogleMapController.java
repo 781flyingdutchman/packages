@@ -74,6 +74,7 @@ class GoogleMapController
   private final MapsCallbackApi flutterApi;
   private final BinaryMessenger binaryMessenger;
   private final GoogleMapOptions options;
+  private final int mapType;
   @Nullable private MapView mapView;
   @Nullable private GoogleMap googleMap;
   private boolean trackCameraPosition = false;
@@ -116,10 +117,12 @@ class GoogleMapController
       Context context,
       BinaryMessenger binaryMessenger,
       LifecycleProvider lifecycleProvider,
-      GoogleMapOptions options) {
+      GoogleMapOptions options,
+      int mapType) {
     this.id = id;
     this.context = context;
     this.options = options;
+    this.mapType = mapType;
     this.mapView = new MapView(context, options);
     this.density = context.getResources().getDisplayMetrics().density;
     this.binaryMessenger = binaryMessenger;
@@ -153,6 +156,7 @@ class GoogleMapController
       MapsCallbackApi flutterApi,
       LifecycleProvider lifecycleProvider,
       GoogleMapOptions options,
+      int mapType,
       ClusterManagersController clusterManagersController,
       MarkersController markersController,
       PolygonsController polygonsController,
@@ -166,6 +170,7 @@ class GoogleMapController
     this.binaryMessenger = binaryMessenger;
     this.flutterApi = flutterApi;
     this.options = options;
+    this.mapType = mapType;
     this.mapView = new MapView(context, options);
     this.density = context.getResources().getDisplayMetrics().density;
     this.lifecycleProvider = lifecycleProvider;
@@ -197,6 +202,7 @@ class GoogleMapController
   @Override
   public void onMapReady(@NonNull GoogleMap googleMap) {
     this.googleMap = googleMap;
+    this.googleMap.setMapType(this.mapType);
     this.googleMap.setIndoorEnabled(this.indoorEnabled);
     this.googleMap.setTrafficEnabled(this.trafficEnabled);
     this.googleMap.setBuildingsEnabled(this.buildingsEnabled);
