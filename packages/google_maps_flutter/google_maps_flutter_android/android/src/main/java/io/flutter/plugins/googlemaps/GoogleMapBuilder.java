@@ -16,7 +16,6 @@ import java.util.List;
 
 class GoogleMapBuilder implements GoogleMapOptionsSink {
   private final GoogleMapOptions options = new GoogleMapOptions();
-  private int mapType = com.google.android.gms.maps.GoogleMap.MAP_TYPE_NORMAL;
   private boolean trackCameraPosition = false;
   private boolean myLocationEnabled = false;
   private boolean myLocationButtonEnabled = false;
@@ -42,7 +41,6 @@ class GoogleMapBuilder implements GoogleMapOptionsSink {
     final GoogleMapController controller =
         new GoogleMapController(id, context, binaryMessenger, lifecycleProvider, options);
     controller.init();
-    controller.setMapType(mapType);
     controller.setMyLocationEnabled(myLocationEnabled);
     controller.setMyLocationButtonEnabled(myLocationButtonEnabled);
     controller.setIndoorEnabled(indoorEnabled);
@@ -87,7 +85,6 @@ class GoogleMapBuilder implements GoogleMapOptionsSink {
 
   @Override
   public void setMapType(int mapType) {
-    this.mapType = mapType;
     options.mapType(mapType);
   }
 

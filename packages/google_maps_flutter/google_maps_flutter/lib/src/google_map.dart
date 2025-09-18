@@ -471,7 +471,12 @@ class _GoogleMapState extends State<GoogleMap> {
 
   void _updateOptions(GoogleMapController controller) {
     final MapConfiguration newConfig = _configurationFromMapWidget(widget);
-    final MapConfiguration updates = newConfig.diffFrom(_mapConfiguration);
+    MapConfiguration updates = newConfig.diffFrom(_mapConfiguration);
+    // TODO(egarciad): This is a workaround for a bug in the Maps SDK on
+    // Android where the map type is reset when the camera is moved.
+    // This should be removed once the bug is fixed.
+    // https://github.com/flutter/flutter/issues/117332
+    updates = updates.copyWith(mapType: newConfig.mapType);
     if (updates.isEmpty) {
       return;
     }
