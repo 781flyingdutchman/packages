@@ -83,6 +83,7 @@ class GoogleMapController
   private boolean indoorEnabled = true;
   private boolean trafficEnabled = false;
   private boolean buildingsEnabled = true;
+  private int mapType;
   private boolean disposed = false;
   @VisibleForTesting final float density;
   private @Nullable Messages.VoidResult mapReadyResult;
@@ -476,6 +477,9 @@ class GoogleMapController
       return;
     }
     mapView.onResume();
+    if (googleMap != null) {
+      googleMap.setMapType(mapType);
+    }
   }
 
   @Override
@@ -483,7 +487,7 @@ class GoogleMapController
     if (disposed) {
       return;
     }
-    mapView.onResume();
+    mapView.onPause();
   }
 
   @Override
@@ -538,7 +542,10 @@ class GoogleMapController
 
   @Override
   public void setMapType(int mapType) {
-    googleMap.setMapType(mapType);
+    this.mapType = mapType;
+    if (googleMap != null) {
+      googleMap.setMapType(mapType);
+    }
   }
 
   @Override
